@@ -108,7 +108,7 @@ nombres = ["Juan", "María", "Pedro", "Ana"]
 
 # forma anti-pro
 i: int = 0
-for nombre in nombres
+for nombre in nombres:
   print(f"Índice: {i}, Nombre: {nombre}")
   i += 1
 
@@ -267,11 +267,11 @@ print(f"Resultado suma: {resultado_suma}")
 ```
 
 ## Introducción a los patrones de diseño
-El objeto principal de la ingeniería es resolver problemas, cuando se identifican problemas con una estructura común, es posible plantear una metodlogía para resolver el problema en cuestión. Cuando se diseña un componente mecánico, como un eje, existe una series de pasos en los que se aplican ciertos criterios para llegar a la solución. Esto aplica a casi todas las rams de la ingeniería, para construir una estrucutra civil, para obtener un producto alimenticio, para obtener un circuito que procese una señal. La ingeniería de software NO es la excepción, existen problemas recurrentes, y a partir de ello se han planteado soluciones reutilizables que ofrecen una especie de plantilla para resolver el problema de forma efectiva. 
+El objeto principal de la ingeniería es resolver problemas, cuando se identifican problemas con una estructura común, es posible plantear una metodlogía para resolver el problema en cuestión. Cuando se diseña un componente mecánico, como un eje, existe una series de pasos en los que se aplican ciertos criterios para llegar a la solución. Esto aplica a casi todas las ramas de la ingeniería, para construir una estructura civil, para obtener un producto alimenticio, para obtener un circuito que procese una señal. La ingeniería de software NO es la excepción, existen problemas recurrentes, y a partir de ello se han planteado soluciones reutilizables que ofrecen una especie de plantilla para resolver el problema de forma efectiva. 
 
 En general, un patrón de diseño propone un conjunto de objetos que interactuan de cierta manera para resolver un problema determinado. El trabajo de un programador es identificar el patrón de diseño adecuado para resolver el problema al que se enfrenta. 
 
-Existen múltiples patrones de disseño, algunos se abordarán en este curso, sin embargo se deja a discresión de los que vean este material ampliar el tema (*btw:* Un programador *noob* es solo funciones, uno medio malo usa POO, pero uno muy pro aplica patrones de diseño ). 
+Existen múltiples patrones de diseño, algunos se abordarán en este curso, sin embargo se deja a discresión de los que vean este material ampliar el tema (*btw:* Un programador *noob* es solo funciones, uno medio malo usa POO, pero uno muy pro aplica patrones de diseño ). 
 
 ### Iteradores
 Un problema común entre colecciones es cómo ir accediendo a sus elementos de forma secuencial, sin tener que estar haciendo un llamado a toda la estructura que almacena los datos. Para ello se tiene el patrón de *iterador*, el cual es un objeto con dos métodos `next()` y `done()`. El primero le permite acceder al siguiente elemento de la colección y el segundo retorna True cuando no hay más elementos.
