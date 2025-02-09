@@ -121,7 +121,7 @@ for indice, nombre in enumerate(nombres):
 Es una sentencia integrada que combina elementos de dos o más secuencias iterables en una nueva secuencia de tuplas. Cada tupla en la nueva secuencia contiene elementos correspondientes de las secuencias originales, enlazados por su posición.
 
 - La función `zip` recibe como argumentos dos o más secuencias iterables, las cuales pueden ser listas, tuplas, cadenas u otros tipos de iterables.
-- Devuelve un nuevo objeto iterador que genera tuplas compuestas por elementos correspondientes de las secuencias originales.
+- Devuelve un nuevo objeto iterador de tuplas cuyos elementos son tuplas que contienen a todos los elementos de las secuencias originales correspondientes a un mismo índice.
 - La cantidad de elemntos de la secuencia resultante es igual a la longitud mínima de las secuencias de entrada. Si una secuencia es más corta que las demás, se omiten los elementos faltantes en las tuplas de la secuencia resultante.
 - Se utiliza comúnmente dentro de un bucle for para recorrer las secuencias combinadas y acceder a los elementos correspondientes en cada iteración.
 
@@ -132,8 +132,8 @@ edades = [30, 25, 28, 22]
 # Combinar usando zip y recorrer en un bucle for
 datos_combinados = zip(nombres, edades)
 
-for nombre, edad in datos_combinados:
-  print(f"Nombre: {nombre}, Edad: {edad}")
+for (nombre, edad) in datos_combinados:
+  print(f"Nombre: {nombre} | Edad: {edad}")
 ```
 
 ### map
@@ -142,6 +142,8 @@ Es una sentencia que permite aplicar una operación específica a cada elemento 
 - Permite transformar los elementos de una secuencia a través de la aplicación de una función.
 - La función `map` genera un nuevo iterable que contiene los resultados de aplicar la función a cada elemento de la secuencia original.
 - La función `map` no retorna los resultados de forma inmediata, sino que devuelve un objeto map que representa la transformación a realizar. Para obtener los resultados procesados, es necesario convertir el objeto `map` a una lista utilizando la función `list`.
+- Es en realidad otra forma de hacer lo mismo que hace una *list comprehension*. ``map()`` es -un poco- más rápida que hacer una *list_comprehension* en el caso en que la función que se aplica a los elementos ya esté definida. De otro modo, es decir, cuando se define una función ``lambda``, *list comprehension* es más rápida.
+- Se recomienda más hacer una *list comprehension* en la mayoría de los casos ([discusión en Stack al respecto](https://stackoverflow.com/questions/1247486/list-comprehension-vs-map)).
 
 ```python 
 def elevar_al_cuadrado(numero):
@@ -155,13 +157,28 @@ numeros_al_cuadrado = map(elevar_al_cuadrado, numeros)
 
 # Conversión del objeto `map` a lista
 resultado = list(numeros_al_cuadrado)
+resultado2 = [elevar_al_cuadrado(num) for num in numeros]
 
 print(f"Lista original: {numeros}")
 print(f"Lista al cuadrado: {resultado}")
 ```
 
+```python
+# Con diccionarios
+diction = {"measurement1": 4.0, "measurement2": 7.9, "measurement3": 1.8}
+def change_unit(num):
+    print(num)
+    return num + 1
+
+print(diction["examen1"])
+results_plus_one = map(change_unit, diction.values()) # * Por defecto, si solo se pasa el diccionario como argumento, la función recibirá las llaves de este como argumentos.
+print(list(results_plus_one)) # ! No se conservan las llaves. Para eso se requiere un 'dictionary comprehension'
+```
+
 ## Funciones como objetos
 En Python, las funciones son objetos de primera clase, lo que significa que pueden ser tratadas como cualquier otro objeto, con la capacidad de asignarles atributos, pasarlas como argumentos a otras funciones y almacenarlas en variables.
+
+> [Este link](https://en.wikipedia.org/wiki/First-class_citizen) describe lo que significa ser 'de primera clase', y [este](https://stackoverflow.com/questions/245192/what-are-first-class-objects) y [este](https://medium.com/ryanjang-devnotes/who-is-first-class-citizen-in-programming-world-b92c67b32635) otro artículo hablan de funciones de primera clase específicamente. En Python, como casi todo es un objeto, la mayoría de los nombres se pueden pasar como argumentos, añadirles un atributo, etc. Sin embargo, en lenguajes como C++, C o Java, no ocurre lo mismo, por lo que todo no se puede hacer con todo.
 
 - Las funciones en Python se pueden asignar a variables.
 ```python 
