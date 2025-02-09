@@ -382,6 +382,13 @@ for evento in registro:
   print(f"[{timestamp}] {tipo}: {mensaje}")
 ```
 
-## Reto 7: 
+### Información adicional Iteradores
++ [Iterators and Iterables in Python](https://realpython.com/python-iterators-iterables/#understanding-iteration-in-python)
++ [Iterable vs Iterator in Python](https://medium.com/analytics-vidhya/iterable-vs-iterator-in-python-eda1295a815e)
++ [Design Patterns in Python: Iterator](https://medium.com/@amirm.lavasani/design-patterns-in-python-iterator-2d3e9917f930)
++ [What are Python Iterators and Iterables | How to create a custom Iterator |Python Interview Question](https://www.youtube.com/watch?v=i-Gn49eEi8s&ab_channel=CodingWithRoy)
+
+
+## Reto 8: 
 1. The menu once again....(I am running out of ideas). Well the task is quite easy, take the Menu code from Reto 3 and implement a new Class that creates and iterable with all the items in an order, it should allow looping and contain all item attributes.
 
