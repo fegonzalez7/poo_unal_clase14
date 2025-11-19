@@ -394,91 +394,15 @@ for numero in GeneradorPares(limite):
   print(numero)
 ```
 
-```python
-class CapitalIterable:
-  # Retorna un iterable con un iterador tipo CapitalIterator
-  def __init__(self, string):
-    self.string = string
+#### Ejercicio:
 
-  def __iter__(self):
-    return CapitalIterator(self.string)
+Creat un iterable personalizado que permita retornar las palabras de una cadena de texto una por una, ignorando los espacios en blanco. Por ejemplo, si la cadena es "Hola mundo desde Python", el iterable debería retornar "Hola", "mundo", "desde" y "Python" en cada iteración.
 
 
-class CapitalIterator:
-  def __init__(self, string):
-    # Lista de palabras a capitalizar
-    self.words = [w.capitalize() for w in string.split()]
-    self.index = 0
 
-  def __next__(self):
-    # Se define como debe ser el siguiente elemento
-    if self.index == len(self.words):
-      raise StopIteration()
-    word = self.words[self.index]
-    self.index += 1
-    return word
-
-  def __iter__(self):
-    return self
-
-
-iterable = CapitalIterable('the quick brown fox jumps over the lazy dog')
-iterator = iter(iterable)
-# Aplicacion de la logica de un iterador
-while True:
-  try:
-    print(next(iterator))
-  except StopIteration:
-    break
-
-# De forma simplificada
-for i in iterable:
-  print(i)
-```
-
-**Ejemplo:** Sistema para registrar eventos.
-```python
-class RegistroEventos:
-  """Implementa un iterable para registrar y recorrer eventos."""
-
-  def __init__(self):
-    self.eventos = []
-
-  def agregar_evento(self, tipo, mensaje, timestamp):
-    """Agrega un nuevo evento al registro."""
-    self.eventos.append((tipo, mensaje, timestamp))
-
-  def __iter__(self):
-    return RegistroEventosIterador(self.eventos)
-
-class RegistroEventosIterador:
-  """Implementa un iterador para recorrer eventos registrados."""
-
-  def __init__(self, eventos):
-    self.eventos = eventos
-    self.indice = 0
-
-  def __iter__(self):
-    return self
-
-  def __next__(self):
-    if self.indice < len(self.eventos):
-      evento = self.eventos[self.indice]
-      self.indice += 1
-      return evento
-    else:
-      raise StopIteration
-
-registro = RegistroEventos()
-registro.agregar_evento("INFO", "Aplicación iniciada", 1654321000)
-registro.agregar_evento("AVISO", "Memoria baja", 1654321050)
-registro.agregar_evento("ERROR", "Fallo en la conexión a la base de datos", 1654321100)
-
-for evento in registro:
-  tipo, mensaje, timestamp = evento
-  print(f"[{timestamp}] {tipo}: {mensaje}")
-```
-
-## Reto 7: 
-1. The menu once again....(I am running out of ideas). Well the task is quite easy, take the Menu code from Reto 3 and implement a new Class that creates and iterable with all the items in an order, it should allow looping and contain all item attributes.
+### Información adicional Iteradores
++ [Iterators and Iterables in Python](https://realpython.com/python-iterators-iterables/#understanding-iteration-in-python)
++ [Iterable vs Iterator in Python](https://medium.com/analytics-vidhya/iterable-vs-iterator-in-python-eda1295a815e)
++ [Design Patterns in Python: Iterator](https://medium.com/@amirm.lavasani/design-patterns-in-python-iterator-2d3e9917f930)
++ [What are Python Iterators and Iterables | How to create a custom Iterator |Python Interview Question](https://www.youtube.com/watch?v=i-Gn49eEi8s&ab_channel=CodingWithRoy)
 
