@@ -39,8 +39,8 @@ class MiLista:
 
 mi_lista = MiLista([1, 2, 3, 4, 5])
 print(f"La cantidad de elementos es: {len(mi_lista)}") 
-
 ```
+
 ### str
 La función `__str__` es un método especial define cómo se representa un objeto como cadena de texto (representación legible del objeto). Es decir, determina la forma en que un objeto se imprime cuando se utiliza la función str() o cuando se inserta directamente en una cadena (e.g. cuando se le da `print()` a un objeto).
 
@@ -270,6 +270,86 @@ Un iterable es un objeto al cual se puede acceder a sus elementos de forma secue
 
 En Python existen colecciones *built-in* que permiten iterar para acceder a sus elemenos, tales como: listas, tuplas, conjuntos y diccionarios.
 
+#### Iterables
+
+Son objetos que están pensados o soportan la iteración, es decir, permiten recorrer sus elementos uno por uno usando el `for` Pythonico, e.g. `list`, `dict`, `tuple`.
+
+```python
+mi_lista = [1, 2, 3, 4, 5]
+print(dir(mi_lista))
+```
+
+Los iterables deben implementar el método especial `__iter__()`, el cual retorna un *iterador*.
+
+
+#### Iteradores (de nuevo)
+
+Un iterador es un objeto con memoria que sabe en qué posición de la secuencia se encuentra y cómo obtener el siguiente elemento. Y esto porqué es importante? Porque permite recorrer una colección sin necesidad de exponer su estructura interna, en otras palabras, un iterador no necesita saber todos los elementos de la colección, solo necesita saber su valor actual y cómo obtener el siguiente (esto es útil si la colección es muy grande porque no es necesario cargar todos los elementos en memoria, sino uno por uno).
+
+Los iteradores deben implementar dos métodos especiales:
+- `__iter__()`: Retorna el propio iterador. Esto permite que un iterador sea también un iterable.
+- `__next__()`: Retorna el siguiente elemento de la secuencia. Si no hay más elementos, debe lanzar la excepción `StopIteration`.
+
+```python
+print(next(mi_lista)) # Trata ejecutar el método __next__ del iterador
+```
+
+Entonces una lista es un iterable que puede generar un iterador para recorrer sus elementos.
+
+```python
+mi_lista = [1, 2, 3, 4, 5]
+mi_iterador = iter(mi_lista)  # Llama al método __iter__ de la lista
+print(dir(mi_iterador))  
+print(next(mi_iterador))  # Llama al método __next__ del iterador
+print(next(mi_iterador))
+print(next(mi_iterador))
+print(next(mi_iterador))
+print(next(mi_iterador))
+print(next(mi_iterador)) # Qué sucede aquí?
+```
+
+Y entonces qué hace el  `for`?
+
+```python
+mi_lista = [1, 2, 3, 4, 5]
+mi_iterador = iter(mi_lista)
+while True:
+  try:
+    elemento = next(mi_iterador)
+    print(elemento)
+  except StopIteration:
+    break
+```
+
+#### Ejemplo: MyRange
+
+```python
+class MyRange:
+  """Implementa un iterable similar a range()."""
+  def __init__(self, inicio, fin):
+    self.actual = inicio
+    self.fin = fin
+
+  def __iter__(self):
+    return self
+
+  def __next__(self):
+    if self.actual < self.fin:
+      valor = self.actual
+      self.actual += 1
+      return valor
+    else:
+      raise StopIteration
+
+# Ejemplo de uso
+mi_rango = MyRange(1, 5)
+print(dir(mi_rango))
+for numero in mi_rango:
+  print(numero)
+```
+
+#### Ejemplo: Generador de números pares
+
 ```python
 class GeneradorPares:
   """Implementa un iterador de números pares hasta un límite especificado."""
@@ -297,91 +377,6 @@ for numero in GeneradorPares(limite):
   print(numero)
 ```
 
-```python
-class CapitalIterable:
-  # Retorna un iterable con un iterador tipo CapitalIterator
-  def __init__(self, string):
-    self.string = string
+#### Ejercicio:
 
-  def __iter__(self):
-    return CapitalIterator(self.string)
-
-
-class CapitalIterator:
-  def __init__(self, string):
-    # Lista de palabras a capitalizar
-    self.words = [w.capitalize() for w in string.split()]
-    self.index = 0
-
-  def __next__(self):
-    # Se define como debe ser el siguiente elemento
-    if self.index == len(self.words):
-      raise StopIteration()
-    word = self.words[self.index]
-    self.index += 1
-    return word
-
-  def __iter__(self):
-    return self
-
-
-iterable = CapitalIterable('the quick brown fox jumps over the lazy dog')
-iterator = iter(iterable)
-# Aplicacion de la logica de un iterador
-while True:
-  try:
-    print(next(iterator))
-  except StopIteration:
-    break
-
-# De forma simplificada
-for i in iterable:
-  print(i)
-```
-
-**Ejemplo:** Sistema para registrar eventos.
-```python
-class RegistroEventos:
-  """Implementa un iterable para registrar y recorrer eventos."""
-
-  def __init__(self):
-    self.eventos = []
-
-  def agregar_evento(self, tipo, mensaje, timestamp):
-    """Agrega un nuevo evento al registro."""
-    self.eventos.append((tipo, mensaje, timestamp))
-
-  def __iter__(self):
-    return RegistroEventosIterador(self.eventos)
-
-class RegistroEventosIterador:
-  """Implementa un iterador para recorrer eventos registrados."""
-
-  def __init__(self, eventos):
-    self.eventos = eventos
-    self.indice = 0
-
-  def __iter__(self):
-    return self
-
-  def __next__(self):
-    if self.indice < len(self.eventos):
-      evento = self.eventos[self.indice]
-      self.indice += 1
-      return evento
-    else:
-      raise StopIteration
-
-registro = RegistroEventos()
-registro.agregar_evento("INFO", "Aplicación iniciada", 1654321000)
-registro.agregar_evento("AVISO", "Memoria baja", 1654321050)
-registro.agregar_evento("ERROR", "Fallo en la conexión a la base de datos", 1654321100)
-
-for evento in registro:
-  tipo, mensaje, timestamp = evento
-  print(f"[{timestamp}] {tipo}: {mensaje}")
-```
-
-## Reto 7: 
-1. The menu once again....(I am running out of ideas). Well the task is quite easy, take the Menu code from Reto 3 and implement a new Class that creates and iterable with all the items in an order, it should allow looping and contain all item attributes.
-
+Crear un iterador que genere las palabras de una cadena de texto, separadas por espacios. Por ejemplo, para la cadena "Hola mundo desde Python", el iterador debería generar las palabras "Hola", "mundo", "desde" y "Python" en cada llamada a `next()`.
